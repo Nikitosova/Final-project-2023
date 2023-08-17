@@ -30,7 +30,7 @@ with open('RussianChinese_dataset.txt', encoding='utf-8') as f:
         elif line == '\n':
             russian = None
             chinese = None
-
+rus_sens = []
 title = 'sentence_index;text\n'
 with open('Russian_data.csv', 'w', encoding='utf-8') as f_ru:
     with open('Chinese_data.csv', 'w', encoding='utf-8') as f_ch:
@@ -42,4 +42,9 @@ with open('Russian_data.csv', 'w', encoding='utf-8') as f_ru:
             f_ru.write(f'{i};{russian}\n')
             f_ch.write(f'{i};{chinese}\n')
             i += 1
+            rus_sens.append(russian)
+
+with open('rus_sens.txt', 'w', encoding='utf-8') as f:
+    for sens in rus_sens:
+        f.write(sens + '\n')
 

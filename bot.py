@@ -2,7 +2,7 @@ from telebot import TeleBot
 
 from work_func import get_best_sentences
 
-token = 'insert your token here'
+token = '6158832397:AAFqOp37rm5wGKLlWIM8hF8OyoCZ0JcQXcY'
 bot = TeleBot(token)
 
 hello_message = 'Приветствую тебя в моём боте.' \

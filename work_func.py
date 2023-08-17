@@ -52,7 +52,7 @@ def get_best_sentences(user_text: str, limit=10):
         if check:
             score = cosine(tf_idf, my_tf_idf)
             if 0 < score < 1:
-                result.append([score, row['index_sentence']])
+                result.append([score, row['sentence_index']])
 
     result.sort(key=lambda x: x[0])
 
