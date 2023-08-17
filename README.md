@@ -36,6 +36,7 @@
 
 
 Подготовка вспомогательных данных и обучене нейронных сетей
+
 2. Запустить файл [transform_txt_to_csv.py](transform_txt_to_csv.py)
 3. Запустить файл [vectorize.py](vectorize.py)
 4. Запустить файл [generate_ch_translate.py](generate_ch_translate.py)
@@ -43,6 +44,7 @@
 6. Запустить файл [neuron_2.py](neuron_2.py)
 
 Запуск ботов
+
 7. Запустить файл [bot_neuron.py](bot_neuron.py) 
 8. Запустить файл [bot.py](bot.py) 
 
