@@ -9,8 +9,8 @@ from scipy.spatial.distance import cosine
 from help_funcs import lemmatize, create_tf_idf
 
 df = pd.read_csv('processed_data_OK.csv', index_col='index', encoding='utf-32')
-df_ch = pd.read_csv('Chinese_data.csv', encoding='utf-8', sep = ';')
-df_ru = pd.read_csv('Russian_data.csv', encoding='utf-8', sep = ';')
+df_ch = pd.read_csv('Chinese_data.csv', encoding='utf-8', sep=';')
+df_ru = pd.read_csv('Russian_data.csv', encoding='utf-8', sep=';')
 # подгружаем словарь с пронумерованными словами
 with open('words_indices_OK.json', 'r') as f:
     words_indices = json.load(f)
@@ -22,7 +22,7 @@ with open('idf_data_OK.json', 'r') as f:
 df['tf_idf'] = df['tf_idf'].apply(json.loads)
 
 
-def get_best_urls(user_text: str):
+def get_best_sentences(user_text: str, limit=10):
     ts = time.time()
     lemmatize_text = lemmatize(user_text).split()
     good_words = []
@@ -34,7 +34,6 @@ def get_best_urls(user_text: str):
         return []
 
     my_tf_idf = create_tf_idf(idf, [good_words], words_indices)[0]
-    # (0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 , 0.123124124, 0 ,0 ,0 ,0 ,0  ,0 ,0 , 0.4543223432, 0,0,0,0,0)
 
     good_i = {}
     for i, val in enumerate(my_tf_idf):
@@ -53,25 +52,34 @@ def get_best_urls(user_text: str):
         if check:
             score = cosine(tf_idf, my_tf_idf)
             if 0 < score < 1:
-                result.append([score, row['sentence_index']])
+                result.append([score, row['index_sentence']])
 
     result.sort(key=lambda x: x[0])
 
-    urls = []
-    for score, link in result:
-        urls.append(link)
+    indexes = []
+    data = []
 
-    print('total', time.time() - ts)
-    return urls
+    for score, index in result:
+        indexes.append(index)
+
+    for i in indexes:
+        s_ru = df_ru.iloc[i].text
+        s_ch = df_ch.iloc[i].text
+
+        d = (s_ru, s_ch)
+        if d not in data:
+            data.append(d)
+
+        if len(data) >= limit:
+            break
+
+    return data
 
 
 if __name__ == '__main__':
+    # тестовый пример
+    from pprint import pprint
+
     text = 'груз, контейнер'
-    my_urls = get_best_urls(text)
-    # print(*my_urls, sep='\n')
-    for i in my_urls:
-        s1 = df_ch[df_ch['sentence_index'] == i].text
-        s2 = df_ru[df_ru['sentence_index'] == i].text
-        print(s1)
-        print(s2)
-        print()
+    data = get_best_sentences(text, 5)
+    pprint(data)

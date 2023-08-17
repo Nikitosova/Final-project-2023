@@ -1,0 +1,5 @@
+pyTelegramBotAPI
+pandas
+scikit-learn
+nltk
+pymorphy2
