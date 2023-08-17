@@ -1,3 +1,5 @@
+import pickle
+
 import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, LSTM, Dense
@@ -5,17 +7,9 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pandas
 
-# Пример данных для обучения
-# data = [
-#     "Как дела?",
-#     "Что нового?",
-#     "Какой сегодня день?",
-#     "Как погода?",
-#     "Что вы думаете о...",
-# ]
 
 data = []
-with open('rus_sens.txt') as f:
+with open('rus_sens.txt', encoding='utf-8') as f:
     for s in f.readlines():
         data.append(s.strip())
 
@@ -49,5 +43,12 @@ model.add(Dense(vocab_size, activation='softmax'))
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.fit(input_sequences, output_sequences, epochs=50, verbose=2)
 
-model.save('my_model.h5')
+model.save('model_stage_1.keras')
+
+with open('tokenizer_stage_1.pickle', 'wb') as file:
+    pickle.dump(tokenizer, file)
+
+with open('max_sequence_length.txt', 'w') as file:
+    file.write(str(max_sequence_length))
+
 
