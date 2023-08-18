@@ -48,5 +48,5 @@
 7. Запустить файл [bot_neuron.py](bot_neuron.py) 
 8. Запустить файл [bot.py](bot.py) 
 
-
+https://docs.google.com/presentation/d/1w-VYe0ZnmIYsFPMyjjqUYkj1Y2mbQJiDNpjbUDVM_Tw/edit#slide=id.g275662289b3_0_149
 
